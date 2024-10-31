@@ -2,10 +2,10 @@
 FROM node:18.20.4-alpine3.20 AS build
 WORKDIR /parking-front
 
-COPY frontend/package*.json .
+COPY package*.json .
 RUN npm install
 
-COPY frontend/public ./public
+COPY public ./public
 
 EXPOSE 3000
 
@@ -17,7 +17,7 @@ FROM nginx:latest
 RUN apk --update add nginx && \
         rm -rf /var/cache/apk/* \
 
-COPY ../../default.conf /etc/nginx/conf.d/default.conf
+COPY ../default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /parking-front/public /usr/share/nginx/html/public
 

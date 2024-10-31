@@ -12,7 +12,7 @@ EXPOSE 3000
 CMD ["node", "public/app.js"]
 
 # Nginx
-FROM nginx:latest
+FROM alpine:latest
 
 RUN apk --update add nginx && \
         rm -rf /var/cache/apk/* \

@@ -15,7 +15,7 @@ CMD ["node", "public/app.js"]
 FROM alpine:latest
 
 RUN apk --update add nginx && \
-        rm -rf /var/cache/apk/* \
+        rm -rf /var/cache/apk/*
 
 COPY ../default.conf /etc/nginx/conf.d/default.conf
 

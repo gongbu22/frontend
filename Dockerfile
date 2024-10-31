@@ -5,23 +5,8 @@ WORKDIR /app
 COPY package*.json .
 RUN npm install
 
-COPY public ./public
-COPY app.js .
+COPY . .
 
 EXPOSE 3000
 
 CMD ["node", "app.js"]
-
-## Nginx
-#FROM nginx:alpine
-#
-#RUN apk --update add nginx && \
-#        rm -rf /var/cache/apk/*
-#
-#COPY default.conf /etc/nginx/conf.d/default.conf
-#
-#COPY --from=build /parking-front/public /usr/share/nginx/html/public
-#
-#EXPOSE 80
-#
-#CMD ["nginx", "-g", "daemon off;"]

@@ -17,7 +17,7 @@ FROM nginx:alpine
 RUN apk --update add nginx && \
         rm -rf /var/cache/apk/*
 
-COPY ../default.conf /etc/nginx/conf.d/default.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /parking-front/public /usr/share/nginx/html/public
 

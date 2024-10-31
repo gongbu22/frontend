@@ -1,0 +1,20 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  nginx:
+    container_name: front_nginx
+    image: docker.io/dangdang42/front_nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - nodejs
+
+  nodejs:
+    container_name: front_nodejs
+    image: docker.io/dandang42/front_nodejs
+    environment:
+      - NODE_ENV=production
+    expose:
+      - "3000"

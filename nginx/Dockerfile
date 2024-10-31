@@ -1,5 +1,7 @@
 # Nginx 베이스 이미지
-FROM nginx:alpine
+FROM alpine:latest
+RUN apk --update add nginx && \
+        rm -rf /var/cache/apk/*
 
 # Nginx 설정 복사
 COPY default.conf /etc/nginx/conf.d/default.conf

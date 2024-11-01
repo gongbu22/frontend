@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // 출차할 차량 선택 목록
 const carlist = async () => {
-    let url = `http://127.0.0.1:8000/carlists/${carnum}`;
+    let url = `http://register-svc:8000/carlists/${carnum}`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();
@@ -97,7 +97,7 @@ nextbtn.addEventListener('click', async (event) => {
             //     alert('출차 실패'); // 오류 메시지 출력
             // }
 
-            let url = `http://127.0.0.1:8000/outregist/${pno}`;
+            let url = `http://register-svc:8000/outregist/${pno}`;
             const res = await fetch(url);
             if (res.ok) {
                 alert('출차되었습니다.');

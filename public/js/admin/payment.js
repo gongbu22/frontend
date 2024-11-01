@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // 결제 내역 조회
 const paylist = async () => {
-    let url = `http://127.0.0.1:8003/paymentlist`;
+    let url = `http://statistics-svc:8003/paymentlist`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

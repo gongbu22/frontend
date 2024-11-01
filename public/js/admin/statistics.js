@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', async () => {
-    let url = `http://127.0.0.1:8003/statistics`;
+    let url = `http://statistics-svc:8003/statistics`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

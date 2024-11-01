@@ -11,12 +11,12 @@ spec:
       app: front-nginx
   template:
     metadata:
-      name: k8s-nginx
+      name: front-nginx
       labels:
         app: front-nginx
     spec:
       containers:
-        - name: k8s-nginx
+        - name: front-nginx
           image: dangdang42/front-nginx:v3
           ports:
             - containerPort: 80

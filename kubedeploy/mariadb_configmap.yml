@@ -1,0 +1,10 @@
+# mariadb
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-config
+data:
+  MYSQL_DATABASE: "parking"
+  MYSQL_USER: "parking"
+  MYSQL_PASSWORD: "ubuntu"
+  MYSQL_ROOT_PASSWORD: "ubuntu"

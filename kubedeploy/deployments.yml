@@ -1,0 +1,185 @@
+# mariadb
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb106-deploy
+  labels:
+    app: mariadb106
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb106
+  template:
+    metadata:
+      name: mariadb106
+      labels:
+        app: mariadb106
+    spec:
+      containers:
+        - name: mariadb106
+          image: mariadb:10.6.19-focal
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: mariadb-secret
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mariadb-storage
+      volumes:
+        - name: mariadb-storage
+          emptyDir: {}
+
+
+---
+# fastapi - statistics
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statistics-deploy
+  labels:
+    app: statistics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: statistics
+  template:
+    metadata:
+      name: statistics
+      labels:
+        app: statistics
+    spec:
+      containers:
+        - name: statistics
+          image: snicuz0588/parking-statistics-service
+          ports:
+            - containerPort: 8003
+              protocol: TCP
+#---
+## fastapi - parking
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: parking-deploy
+#  labels:
+#    app: parking
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: parking
+#  template:
+#    metadata:
+#      name: parking
+#      labels:
+#        app: parking
+#    spec:
+#      containers:
+#        - name: parking
+#          image: docdker/parking
+#          ports:
+#            - containerPort: 8002
+#              protocol: TCP
+---
+# fastapi - payment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-deploy
+  labels:
+    app: payment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      name: payment
+      labels:
+        app: payment
+    spec:
+      containers:
+        - name: payment
+          image: ashashrain/parking-payment-service
+          ports:
+            - containerPort: 8001
+              protocol: TCP
+---
+# fastapi - register
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: register-deploy
+  labels:
+    app: register
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: register
+  template:
+    metadata:
+      name: register
+      labels:
+        app: register
+    spec:
+      containers:
+        - name: register
+          image: yoon741/register
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+---
+# nodejs
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-nodejs-deploy
+  labels:
+    app: front-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-nodejs
+  template:
+    metadata:
+      name: front-nodejs
+      labels:
+        app: front-nodejs
+    spec:
+      containers:
+        - name: front-nodejs
+          image: dangdang42/front-nodejs
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+---
+# nginx
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-nginx-deploy
+  labels:
+    app: front-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-nginx
+  template:
+    metadata:
+      name: front-nginx
+      labels:
+        app: front-nginx
+    spec:
+      containers:
+        - name: front-nginx
+          image: dangdang42/front-nginx:v3
+          ports:
+            - containerPort: 80
+              protocol: TCP

@@ -2,9 +2,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mariadb-config
+  name: mariadb-init-sql
 data:
-  MYSQL_DATABASE: "parking"
-  MYSQL_USER: "parking"
-  MYSQL_PASSWORD: "ubuntu"
-  MYSQL_ROOT_PASSWORD: "ubuntu"
+  init.sql: |
+    CREATE
+    DATABASE IF NOT EXISTS parking;
+    DROP USER IF EXISTS 'parking'@'%';
+      CREATE
+    USER 'parking'@'%' IDENTIFIED BY 'ubuntu';
+      GRANT ALL PRIVILEGES ON parking.* TO
+    'parking'@'%';
+      FLUSH
+    PRIVILEGES;

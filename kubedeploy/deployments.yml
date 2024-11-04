@@ -1,114 +1,3 @@
-# mariadb
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mariadb106-deploy
-  labels:
-    app: mariadb106
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mariadb106
-  template:
-    metadata:
-      name: mariadb106
-      labels:
-        app: mariadb106
-    spec:
-      containers:
-        - name: mariadb106
-          image: mariadb:10.6.19-focal
-          ports:
-            - containerPort: 3306
-              protocol: TCP
-          envFrom:
-            - secretRef:
-                name: mariadb-secret
-          volumeMounts:
-            - mountPath: /var/lib/mysql
-              name: mariadb-storage
-      volumes:
-        - name: mariadb-storage
-          emptyDir: {}
-
-
----
-# fastapi - statistics
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: statistics-deploy
-  labels:
-    app: statistics
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: statistics
-  template:
-    metadata:
-      name: statistics
-      labels:
-        app: statistics
-    spec:
-      containers:
-        - name: statistics
-          image: snicuz0588/parking-statistics-service
-          ports:
-            - containerPort: 8003
-              protocol: TCP
-#---
-## fastapi - parking
-#apiVersion: apps/v1
-#kind: Deployment
-#metadata:
-#  name: parking-deploy
-#  labels:
-#    app: parking
-#spec:
-#  replicas: 1
-#  selector:
-#    matchLabels:
-#      app: parking
-#  template:
-#    metadata:
-#      name: parking
-#      labels:
-#        app: parking
-#    spec:
-#      containers:
-#        - name: parking
-#          image: docdker/parking
-#          ports:
-#            - containerPort: 8002
-#              protocol: TCP
----
-# fastapi - payment
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: payment-deploy
-  labels:
-    app: payment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: payment
-  template:
-    metadata:
-      name: payment
-      labels:
-        app: payment
-    spec:
-      containers:
-        - name: payment
-          image: ashashrain/parking-payment-service
-          ports:
-            - containerPort: 8001
-              protocol: TCP
----
 # fastapi - register
 apiVersion: apps/v1
 kind: Deployment
@@ -123,16 +12,34 @@ spec:
       app: register
   template:
     metadata:
-      name: register
       labels:
         app: register
     spec:
       containers:
         - name: register
-          image: yoon741/register
+          image: yoon741/register:v5
           ports:
             - containerPort: 8000
-              protocol: TCP
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret  # Secret 이름
+                  key: MYSQL_USER  # Secret 키
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_DATABASE
+            - name: MYSQL_HOST
+              value: "mariadb"
+            - name: MYSQL_PORT
+              value: "3306"
 ---
 # nodejs
 apiVersion: apps/v1

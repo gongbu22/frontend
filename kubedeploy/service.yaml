@@ -1,72 +1,16 @@
-# mariadb
-apiVersion: v1
-kind: Service
-metadata:
-  name: mariadb106-svc
-spec:
-  selector:
-    app: mariadb106
-  ports:
-    - port: 3306
-      protocol: TCP
-      targetPort: 3306
-
----
-# fastapi - statistics
-apiVersion: v1
-kind: Service
-metadata:
-  name: statistics-svc
-spec:
-  selector:
-    app: statistics
-  ports:
-
-    - port: 8003
-      protocol: TCP
-      targetPort: 8003
----
-## fastapi - parking
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: parking-svc
-#spec:
-#  selector:
-#    app: parking
-#  ports:
-#
-#    - port: 8002
-#      protocol: TCP
-#      targetPort: 8002
-#---
-# fastapi - payment
-apiVersion: v1
-kind: Service
-metadata:
-  name: payment-svc
-spec:
-  selector:
-    app: payment
-  ports:
-
-    - port: 8001
-      protocol: TCP
-      targetPort: 8001
----
 # fastapi - register
 apiVersion: v1
 kind: Service
 metadata:
   name: register-svc
 spec:
-  selector:
-    app: register
+  type: NodePort
   ports:
-
     - port: 8000
-      protocol: TCP
       targetPort: 8000
+      nodePort: 30000
+  selector:
+    app: register-svc
 ---
 # nodejs
 apiVersion: v1

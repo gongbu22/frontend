@@ -10,7 +10,7 @@ spec:
       targetPort: 8000
       nodePort: 30000
   selector:
-    app: register-svc
+    app: register
 ---
 # nodejs
 apiVersion: v1
@@ -32,9 +32,11 @@ kind: Service
 metadata:
   name: front-nginx-svc
 spec:
-  selector:
-    app: front-nginx
+  type: NodePort
+#  selector:
+#    app: front-nginx
   ports:
     - port: 80
       protocol: TCP
       targetPort: 80
+      nodePort: 30010

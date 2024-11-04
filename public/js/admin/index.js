@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // 방문 차량 조회 내역
 const visitedCars = async () => {
-    let url = `http://parking-svc:8002/vehicles`;
+    let url = `http://msa-product-service:8002/vehicles`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

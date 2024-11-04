@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 const paylist = async () => {
     // console.log(String(carnum));
-    let url = `http://payment-svc:8001/payment/${pno}`;
+    let url = `http://parking-payment-service:8001/payment/${pno}`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();
@@ -146,7 +146,7 @@ const processPayment = () => {
     var carLicense = document.getElementById('carLicense').innerText;
 
     // FastAPI 서버로 결제 데이터 전송
-    fetch('http://payment-svc:8001/payment/complete', {
+    fetch('http://parking-payment-service:8001/payment/complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

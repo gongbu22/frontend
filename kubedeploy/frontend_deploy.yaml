@@ -1,0 +1,66 @@
+# nodejs
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-nodejs-deploy
+  labels:
+    app: front-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-nodejs
+  template:
+    metadata:
+      name: front-nodejs
+      labels:
+        app: front-nodejs
+    spec:
+      containers:
+        - name: front-nodejs
+          image: dangdang42/front-nodejs:v6
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: frontend-volume
+              mountPath: /usr/src/app/public
+      volumes:
+        - name: frontend-volume
+          persistentVolumeClaim:
+            claimName: frontend-pvc
+---
+# nginx
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-nginx-deploy
+  labels:
+    app: front-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-nginx
+  template:
+    metadata:
+      name: front-nginx
+      labels:
+        app: front-nginx
+    spec:
+      containers:
+        - name: front-nginx
+          image: dangdang42/front-nginx:v6
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: frontend-volume
+              mountPath: /usr/share/nginx/html/public
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: frontend-volume
+          persistentVolumeClaim:
+            claimName: frontend-pvc
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config

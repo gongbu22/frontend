@@ -2,10 +2,11 @@
 FROM node:18.20.4-alpine3.20
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json /app/
 RUN npm install
 
-COPY . .
+COPY public /app/public
+COPY app.js /app/
 
 #RUN mkdir -p /app/public && \
 #    mkdir -p /app/public/css && \
@@ -15,5 +16,6 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "app.js"]
+#CMD ["node", "app.js"]
+CMD ["node", "/app/app.js"]
 

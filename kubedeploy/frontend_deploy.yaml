@@ -18,12 +18,12 @@ spec:
     spec:
       containers:
         - name: front-nodejs
-          image: dangdang42/front-nodejs:v6
+          image: dangdang42/front-nodejs:v13
           ports:
             - containerPort: 3000
           volumeMounts:
             - name: frontend-volume
-              mountPath: /usr/src/app/public
+              mountPath: /app/public
       volumes:
         - name: frontend-volume
           persistentVolumeClaim:
@@ -49,7 +49,7 @@ spec:
     spec:
       containers:
         - name: front-nginx
-          image: dangdang42/front-nginx:v6
+          image: dangdang42/front-nginx:v7
           ports:
             - containerPort: 80
           volumeMounts:

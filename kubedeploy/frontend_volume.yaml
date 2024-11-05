@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/usr/share/nginx/html/public"
+    path: "/var/lib/app"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

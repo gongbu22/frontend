@@ -1,10 +1,9 @@
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
-let request = require('request');
 let port = 3000;
 
-let indexRouter = require('./public/index');
+let indexRouter = require('/app/public/index.js');
 
 let app = express();
 

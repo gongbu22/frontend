@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', async () => {
-    let url = `http://parking-statistics-service:8003/statistics`;
+    let url = `http://192.168.56.1:8003/statistics`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

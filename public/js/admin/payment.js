@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // 결제 내역 조회
 const paylist = async () => {
-    let url = `http://parking-statistics-service:8003/paymentlist`;
+    let url = `http://192.168.56.1:8003/paymentlist`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

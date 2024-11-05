@@ -100,7 +100,7 @@ const displayParkingSpots = (availableSpots, usedParknums) => {
 
 // 서버에서 주차 현황 데이터를 가져오는 함수
 const getStatus = async () => {
-    const url = `http://msa-product-service:8002/status`;
+    const url = `http://192.168.56.1:8002/status`;
 
     try {
         const response = await fetch(url);

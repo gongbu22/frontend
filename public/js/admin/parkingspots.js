@@ -9,7 +9,7 @@ window.addEventListener('load', async () => {
 });
 
 const getParkseatList = async () => {
-    let url = 'http://192.168.56.1:8002/parkseat';
+    let url = 'http://msa-parking-svc:8002/parkseat';
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

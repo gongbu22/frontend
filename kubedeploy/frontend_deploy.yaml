@@ -21,13 +21,13 @@ spec:
           image: dangdang42/front-nodejs:v13
           ports:
             - containerPort: 3000
-          volumeMounts:
-            - name: frontend-volume
-              mountPath: /app/public
-      volumes:
-        - name: frontend-volume
-          persistentVolumeClaim:
-            claimName: frontend-pvc
+#          volumeMounts:
+#            - name: frontend-volume
+#              mountPath: /app/public
+#      volumes:
+#        - name: frontend-volume
+#          persistentVolumeClaim:
+#            claimName: frontend-pvc
 ---
 # nginx
 apiVersion: apps/v1
@@ -52,15 +52,15 @@ spec:
           image: dangdang42/front-nginx:v7
           ports:
             - containerPort: 80
-          volumeMounts:
-            - name: frontend-volume
-              mountPath: /usr/share/nginx/html/public
-            - name: nginx-config-volume
-              mountPath: /etc/nginx/conf.d
-      volumes:
-        - name: frontend-volume
-          persistentVolumeClaim:
-            claimName: frontend-pvc
-        - name: nginx-config-volume
-          configMap:
-            name: nginx-config
+#          volumeMounts:
+#            - name: frontend-volume
+#              mountPath: /usr/share/nginx/html/public
+#            - name: nginx-config-volume
+#              mountPath: /etc/nginx/conf.d
+#      volumes:
+#        - name: frontend-volume
+#          persistentVolumeClaim:
+#            claimName: frontend-pvc
+#        - name: nginx-config-volume
+#          configMap:
+#            name: nginx-config

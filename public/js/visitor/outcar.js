@@ -97,7 +97,7 @@ nextbtn.addEventListener('click', async (event) => {
             //     alert('출차 실패'); // 오류 메시지 출력
             // }
 
-            let url = `http://msa-parking-service:8000/outregist/${pno}`;
+            let url = `http://msa-parking-service:30100/outregist/${pno}`;
             const res = await fetch(url);
             if (res.ok) {
                 alert('출차되었습니다.');

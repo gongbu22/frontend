@@ -146,7 +146,7 @@ const processPayment = () => {
     var carLicense = document.getElementById('carLicense').innerText;
 
     // FastAPI 서버로 결제 데이터 전송
-    fetch('http://msa-payment-service:8001/payment/complete', {
+    fetch('http://msa-payment-service:30300/payment/complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,17 +1,17 @@
 var express = require('express');
 var router = express.Router();
 
-// REST API 서버 주소 등록
-const registerURL = process.env.REGIST_SRV_URL || '127.0.0.1';
-const productURL = process.env.PRODUCT_SRV_URL || '127.0.0.1';
-const paymentURL = process.env.PAYMENT_SRV_URL || '127.0.0.1';
-const statisticsURL = process.env.STATISTICS_SRV_URL || '127.0.0.1';
+// // REST API 서버 주소 등록
+// const registerURL = process.env.REGIST_SRV_URL || '127.0.0.1';
+// const productURL = process.env.PRODUCT_SRV_URL || '127.0.0.1';
+// const paymentURL = process.env.PAYMENT_SRV_URL || '127.0.0.1';
+// const statisticsURL = process.env.STATISTICS_SRV_URL || '127.0.0.1';
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // res.sendFile(__dirname + '/views/visitor/index.html');
-  res.render('index', {registerURL: registerURL, productURL: productURL, paymentURL: paymentURL, statisticsURL: statisticsURL, layout: false})
+  res.sendFile(__dirname + '/views/visitor/index.html');
+  //res.render('index', {registerURL: registerURL, productURL: productURL, paymentURL: paymentURL, statisticsURL: statisticsURL, layout: false})
 });
 
 router.get('/leaving', function(req, res, next) {

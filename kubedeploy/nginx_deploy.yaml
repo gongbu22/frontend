@@ -1,0 +1,52 @@
+# nginx
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-nginx-deploy
+  labels:
+    app: front-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-nginx
+  template:
+    metadata:
+      name: front-nginx
+      labels:
+        app: front-nginx
+    spec:
+      containers:
+        - name: front-nginx
+          image: dangdang42/front-nginx:v11
+          ports:
+            - containerPort: 80
+#          volumeMounts:
+            #            - name: frontend-volume
+            #              mountPath: /usr/share/nginx/html/public
+#            - name: nginx-config-volume
+#              mountPath: /etc/nginx/conf.d
+#              subPath: default.conf
+#      volumes:
+        #        - name: frontend-volume
+        #          persistentVolumeClaim:
+        #            claimName: frontend-pvc
+#        - name: nginx-config-volume
+#          configMap:
+#            name: nginx-config
+
+---
+# nignx
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-nginx-svc
+spec:
+  selector:
+    app: front-nginx
+  type: NodePort
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+      nodePort: 30010

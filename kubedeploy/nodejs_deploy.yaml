@@ -1,0 +1,45 @@
+# nodejs
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-nodejs-deploy
+  labels:
+    app: front-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-nodejs
+  template:
+    metadata:
+      name: front-nodejs
+      labels:
+        app: front-nodejs
+    spec:
+      containers:
+        - name: front-nodejs
+          image: dangdang42/front-nodejs:v19
+          ports:
+            - containerPort: 3000
+#          volumeMounts:
+#            - name: frontend-volume
+#              mountPath: /app/public
+#      volumes:
+#        - name: frontend-volume
+#          persistentVolumeClaim:
+#            claimName: frontend-pvc
+
+---
+# nodejs
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-nodejs-svc
+spec:
+  selector:
+    app: front-nodejs
+  ports:
+
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000

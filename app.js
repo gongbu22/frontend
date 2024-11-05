@@ -3,9 +3,19 @@ let express = require('express');
 let path = require('path');
 let port = 3000;
 
+// handlebars  추가
+let session = require('express-session');
+const handlebars = require('express-handlebars');
+
 let indexRouter = require('/app/public/index.js');
 
 let app = express();
+
+// handlebars  설정
+const hbs = handlebars.create({});
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'public/handlebars'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

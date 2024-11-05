@@ -1,3 +1,4 @@
+console.log('productURL:', `${sessionStorage.getItem('productURL')}`)
 window.addEventListener('load', async () => {
     try {
         const parkseat = await getParkseatList();

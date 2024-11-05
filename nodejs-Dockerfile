@@ -5,7 +5,8 @@ WORKDIR /app
 COPY package*.json /app/
 RUN npm install
 
-COPY public /app/public
+COPY public/views /app/public/views/
+COPY public/index.js /app/public/
 COPY app.js /app/
 
 #RUN mkdir -p /app/public && \

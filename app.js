@@ -2,16 +2,21 @@ let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
 let port = 3000;
+//
+// // 프로메테우스 설치
+// const { collectDefaultMetrics, register } = require('prom-client');
+// // 기본 메트릭 수집
+// collectDefaultMetrics();
 
 // // handlebars  추가
 // let session = require('express-session');
 // const handlebars = require('express-handlebars');
 
-let indexRouter = require('/app/public/index.js');
+let indexRouter = require('./public/index.js');
 
 let app = express();
 
-// // handlebars  설정
+// handlebars  설정
 // const hbs = handlebars.create({});
 // app.engine('handlebars', hbs.engine);
 // app.set('view engine', 'handlebars');
@@ -34,5 +39,6 @@ app.use(function(req, res, next) {
 app.listen(port, () => {
   console.log(`frontend server on port ${port}`)
 })
+
 
 module.exports = app;

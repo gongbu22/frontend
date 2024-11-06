@@ -18,16 +18,16 @@ spec:
     spec:
       containers:
         - name: front-nodejs
-          image: dangdang42/front-nodejs:v23
+          image: dangdang42/front-nodejs:v20
           ports:
             - containerPort: 3000
-          volumeMounts:
-            - name: frontend-volume
-              mountPath: /app/data
-      volumes:
-        - name: frontend-volume
-          persistentVolumeClaim:
-            claimName: frontend-pvc
+#          volumeMounts:
+#            - name: frontend-volume
+#              mountPath: /app/public
+#      volumes:
+#        - name: frontend-volume
+#          persistentVolumeClaim:
+#            claimName: frontend-pvc
 
 ---
 # nodejs

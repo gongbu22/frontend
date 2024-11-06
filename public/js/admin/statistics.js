@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', async () => {
-    let url = `http://msa-statistics-service:30500/statistics`;
+    let url = `http://msa-statistics-service:8003/statistics`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

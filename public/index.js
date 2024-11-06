@@ -1,12 +1,26 @@
 var express = require('express');
 var router = express.Router();
 
-// // REST API 서버 주소 등록
+// 프로메테우스 설치
+const { collectDefaultMetrics, register } = require('prom-client');
+// 기본 메트릭 수집
+collectDefaultMetrics();
+
+// // handlebars REST API 서버 주소 등록
 // const registerURL = process.env.REGIST_SRV_URL || '127.0.0.1';
 // const productURL = process.env.PRODUCT_SRV_URL || '127.0.0.1';
 // const paymentURL = process.env.PAYMENT_SRV_URL || '127.0.0.1';
 // const statisticsURL = process.env.STATISTICS_SRV_URL || '127.0.0.1';
 
+// 프로메테우스 메트릭 엔드포인트 설정
+router.get('/metrics', async (_req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+  } catch (err) {
+    res.status(500).end(err);
+  }
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

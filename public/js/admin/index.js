@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // 방문 차량 조회 내역
 const visitedCars = async () => {
-    let url = `http://${sessionStorage.getItem('productURL')}:8002/vehicles`;
+    let url = `http://${sessionStorage.getItem('productURL')}/vehicles`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

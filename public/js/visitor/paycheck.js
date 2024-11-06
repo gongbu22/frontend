@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 const paylist = async () => {
     // console.log(String(carnum));
-    let url = `http://${sessionStorage.getItem('paymentURL')}:8001/payment/${pno}`;
+    let url = `http://${sessionStorage.getItem('paymentURL')}/payment/${pno}`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();
@@ -146,7 +146,7 @@ const processPayment = () => {
     var carLicense = document.getElementById('carLicense').innerText;
 
     // FastAPI 서버로 결제 데이터 전송
-    fetch(`http://${sessionStorage.getItem('paymentURL')}:8001/payment/complete`, {
+    fetch(`http://${sessionStorage.getItem('paymentURL')}/payment/complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

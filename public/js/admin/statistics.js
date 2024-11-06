@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', async () => {
-    let url = `http://${sessionStorage.getItem('statisticsURL')}:8003/statistics`;
+    let url = `http://${sessionStorage.getItem('statisticsURL')}/statistics`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

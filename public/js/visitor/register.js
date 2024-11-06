@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // 남은 주차자리 수
 const remainCar = async () => {
-    let url =  `http://${sessionStorage.getItem('productURL')}:8002/available-spots`
+    let url =  `http://${sessionStorage.getItem('productURL')}/available-spots`
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();
@@ -50,7 +50,7 @@ regbtn.addEventListener('click', async (event) => {
     // alert('차량이 등록되었습니다.');
     // window.location.href = '/views/visitor/index.html';
     try {
-        const res = await fetch(`http://${sessionStorage.getItem('paymentURL')}:8001/carregist`,
+        const res = await fetch(`http://${sessionStorage.getItem('paymentURL')}/carregist`,
             {
                 method: 'POST',
                 headers: {

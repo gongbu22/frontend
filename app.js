@@ -3,10 +3,10 @@ let express = require('express');
 let path = require('path');
 let port = 3000;
 
-// 프로메테우스 설치
-const { collectDefaultMetrics, register } = require('prom-client');
-// 기본 메트릭 수집
-collectDefaultMetrics();
+// // 프로메테우스 설치
+// const { collectDefaultMetrics, register } = require('prom-client');
+// // 기본 메트릭 수집
+// collectDefaultMetrics();
 
 // // handlebars  추가
 // let session = require('express-session');

@@ -132,7 +132,7 @@ const displayPayment = (payment) => {
 }
 
 
-const processPayment = () => {
+const processPayment = async () => {
     var IMP = window.IMP;
     IMP.init('imp77608186');
 
@@ -145,17 +145,45 @@ const processPayment = () => {
     var amount = parseInt(feeElement.innerText.replace(/[^0-9]/g, ''), 10);
     var carLicense = document.getElementById('carLicense').innerText;
 
-    // FastAPI 서버로 결제 데이터 전송
-    fetch(`http://${sessionStorage.getItem('paymentURL')}/payment/complete`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            carnum: carLicense,
-            payment: amount.toString(),
-            paydate: new Date().toISOString(),
-            parkingtime: document.getElementById('parkingDuration').innerText
-        })
-    });
+    try {
+        // FastAPI 서버로 결제 데이터 전송
+        const response = await fetch(`http://${sessionStorage.getItem('paymentURL')}/payment/complete`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                carnum: carLicense,
+                payment: amount.toString(),
+                paydate: new Date().toISOString(),
+                parkingtime: document.getElementById('parkingDuration').innerText
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('결제 데이터 저장 실패');
+        }
+
+        // 형식적인 아임포트 결제 요청
+        IMP.request_pay({
+            pg: 'html5_inicis',
+            pay_method: 'card',
+            merchant_uid: 'merchant_' + new Date().getTime(),
+            name: '주차 요금 결제',
+            amount: amount,
+            buyer_email: 'test@example.com',
+            buyer_name: '홍길동',
+            buyer_tel: '010-1234-5678'
+        }, function (rsp) {
+            if (rsp.success) {
+                alert('결제가 완료되었습니다.');
+                window.location.href = '/';
+            } else {
+                alert('결제가 완료되었습니다.');
+                window.location.href = '/';
+            }
+        });
+    } catch (error) {
+        alert('결제 데이터 저장 중 오류가 발생했습니다: ' + error.message);
+    }
     // 에러확인
     // .then(response => response.json())
     // .then(data => {
@@ -165,23 +193,4 @@ const processPayment = () => {
     //    alert('FastAPI 서버와의 통신 중 오류가 발생했습니다.');
     //});
 
-    // 형식적인 아임포트 결제 요청
-    IMP.request_pay({
-        pg: 'html5_inicis',
-        pay_method: 'card',
-        merchant_uid: 'merchant_' + new Date().getTime(),
-        name: '주차 요금 결제',
-        amount: amount,
-        buyer_email: 'test@example.com',
-        buyer_name: '홍길동',
-        buyer_tel: '010-1234-5678'
-    }, function (rsp) {
-        if (rsp.success) {
-            alert('결제가 완료되었습니다.');
-            window.location.href = '/';
-        } else {
-            alert('결제가 완료되었습니다.');
-            window.location.href = '/';
-        }
-    });
 };

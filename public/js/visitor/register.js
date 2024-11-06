@@ -50,7 +50,7 @@ regbtn.addEventListener('click', async (event) => {
     // alert('차량이 등록되었습니다.');
     // window.location.href = '/views/visitor/index.html';
     try {
-        const res = await fetch(`http://${sessionStorage.getItem('paymentURL')}/carregist`,
+        const res = await fetch(`http://${sessionStorage.getItem('registerURL')}/carregist`,
             {
                 method: 'POST',
                 headers: {

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: msa-parking-service
-          image: docker.io/yoon741/register:v5  # 이미지 이름 수정
+          image: docker.io/yoon741/register:v4  # 이미지 이름 수정
           ports:
             - containerPort: 8000
           env:
@@ -37,6 +37,8 @@ spec:
               value: "mariadb"
             - name: MYSQL_PORT
               value: "3306"
+            - name: CORS_ORIGINS
+              value: "http://192.168.56.1:30010,http://front-nodejs-svc:3000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -54,7 +56,7 @@ spec:
     spec:
       containers:
         - name: msa-payment-service
-          image: docker.io/ashashrain/parking-payment-service:latest  # 이미지 이름 수정
+          image: docker.io/ashashrain/parking-payment-service:v3  # 이미지 이름 수정
           ports:
             - containerPort: 8001
           env:
@@ -77,6 +79,8 @@ spec:
               value: "mariadb"
             - name: MYSQL_PORT
               value: "3306"
+            - name: CORS_ORIGINS
+              value: "http://192.168.56.1:30010,http://front-nodejs-svc:3000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -94,7 +98,7 @@ spec:
     spec:
       containers:
         - name: msa-product-service
-          image: docdker/parkingfinal  # 이미지 이름 수정
+          image: docdker/parking2:v2  # 이미지 이름 수정
           ports:
             - containerPort: 8002
           env:
@@ -117,6 +121,8 @@ spec:
               value: "mariadb"
             - name: MYSQL_PORT
               value: "3306"
+            - name: CORS_ORIGINS
+              value: "http://192.168.56.1:30010,http://front-nodejs-svc:3000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -157,3 +163,5 @@ spec:
               value: "mariadb"
             - name: MYSQL_PORT
               value: "3306"
+            - name: CORS_ORIGINS
+              value: "http://192.168.56.1:30010,http://front-nodejs-svc:3000"

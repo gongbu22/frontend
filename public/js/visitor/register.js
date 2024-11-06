@@ -18,7 +18,7 @@ const remainCar = async () => {
 
         if (data) {
 
-            let html = `${data.used_spots || 0}/${data.total_available_spots || 0}`;
+            let html = `${data.used_spots || 0}/${data.total_available_spots+data.used_spots || 0}`;
             // let html = `${data.total_available_spots || 0}`; // 장애인석도 포함할 경우
             // let html1 = `50/100`;
             remainCars.innerHTML = html;

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: msa-parking-service
-          image: docker.io/yoon741/register:v4  # 이미지 이름 수정
+          image: docker.io/yoon741/register:v2  # 이미지 이름 수정
           ports:
             - containerPort: 8000
           env:
@@ -140,7 +140,8 @@ spec:
     spec:
       containers:
         - name: msa-statistics-service
-          image: snicuz0588/parking-statistics-service  # 이미지 이름 수정
+          image: snicuz0588/parking-statistics-service:v4  # 이미지 이름 수정
+#          image: docdker/statistics:v4
           ports:
             - containerPort: 8003
           env:

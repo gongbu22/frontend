@@ -21,19 +21,19 @@ spec:
           image: dangdang42/front-nginx:v12
           ports:
             - containerPort: 80
-          volumeMounts:
-            - name: frontend-volume
-              mountPath: /usr/share/nginx/html/data
-            - name: nginx-config-volume
-              mountPath: /etc/nginx/conf.d
-              subPath: default.conf
-      volumes:
-        - name: frontend-volume
-          persistentVolumeClaim:
-            claimName: frontend-pvc
-        - name: nginx-config-volume
-          configMap:
-            name: nginx-config
+#          volumeMounts:
+#            - name: frontend-volume
+#              mountPath: /usr/share/nginx/html/data
+#            - name: nginx-config-volume
+#              mountPath: /etc/nginx/conf.d
+#              subPath: default.conf
+#      volumes:
+#        - name: frontend-volume
+#          persistentVolumeClaim:
+#            claimName: frontend-pvc
+#        - name: nginx-config-volume
+#          configMap:
+#            name: nginx-config
 
 ---
 # nignx

@@ -21,6 +21,9 @@ spec:
           image: dangdang42/front-nodejs:v20
           ports:
             - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: front-secret
 #          volumeMounts:
 #            - name: frontend-volume
 #              mountPath: /app/public

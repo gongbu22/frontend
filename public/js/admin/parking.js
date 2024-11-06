@@ -12,7 +12,7 @@ window.addEventListener('load', async () => {
 
 // 남은 자리 수 가져오기
 const getAvailableSpots = async () => {
-    let url = `http://msa-product-service:8002/available-spots`;
+    let url = `http://${sessionStorage.getItem('productURL')}:8002/available-spots`;
     const res = await fetch(url);
 
     if (res.ok) {
@@ -100,7 +100,7 @@ const displayParkingSpots = (availableSpots, usedParknums) => {
 
 // 서버에서 주차 현황 데이터를 가져오는 함수
 const getStatus = async () => {
-    const url = `http://msa-product-service:8002/status`;
+    const url = `http://${sessionStorage.getItem('productURL')}:8002/status`;
 
     try {
         const response = await fetch(url);

@@ -10,7 +10,7 @@ window.addEventListener('load', async () => {
 });
 
 const getParkseatList = async () => {
-    let url = 'http://msa-product-service:8002/parkseat';
+    let url = `http://${sessionStorage.getItem('productURL')}:8002/parkseat`;
     const res = await fetch(url);
     if (res.ok) {
         const data = await res.json();

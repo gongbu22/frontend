@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: front-nodejs
-          image: dangdang42/front-nodejs:v30
+          image: dangdang42/front-nodejs:v32
           ports:
             - containerPort: 3000
           envFrom:

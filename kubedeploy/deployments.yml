@@ -56,7 +56,7 @@ spec:
     spec:
       containers:
         - name: msa-payment-service
-          image: docker.io/ashashrain/parking-payment-service:v3  # 이미지 이름 수정
+          image: docker.io/ashashrain/parking-payment-service:v4  # 이미지 이름 수정
           ports:
             - containerPort: 8001
           env:

@@ -18,12 +18,12 @@ spec:
     spec:
       containers:
         - name: front-nginx
-          image: dangdang42/front-nginx:v14
+          image: dangdang42/front-nginx:v17  # 14
           ports:
             - containerPort: 80
 #          volumeMounts:
 #            - name: frontend-volume
-#              mountPath: /usr/share/nginx/html/data
+#              mountPath: /usr/share/nginx/html/public
 #            - name: nginx-config-volume
 #              mountPath: /etc/nginx/conf.d
 #              subPath: default.conf

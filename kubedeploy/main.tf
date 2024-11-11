@@ -23,7 +23,7 @@ resource "aws_instance" "ansible" {
   }
 
   disable_api_termination = true  # 종료 방지 활성화
-  vpc_security_group_ids = ["sg-083d7a16c698d056a"]
+  vpc_security_group_ids = ["sg-0d2211537b7b269e8"]
 
   user_data = <<-EOF
     #!/bin/bash
@@ -57,7 +57,7 @@ resource "aws_instance" "ci" {
   }
 
   disable_api_termination = true  # 종료 방지 활성화
-  vpc_security_group_ids = ["sg-083d7a16c698d056a"]
+  vpc_security_group_ids = ["sg-0d2211537b7b269e8"]
 
   user_data = <<-EOF
     #!/bin/bash
@@ -84,7 +84,7 @@ resource "aws_instance" "cd-master" {
   }
 
   disable_api_termination = true  # 종료 방지 활성화
-  vpc_security_group_ids = ["sg-083d7a16c698d056a"]
+  vpc_security_group_ids = ["sg-0d2211537b7b269e8"]
 
   user_data = <<-EOF
     #!/bin/bash
@@ -111,7 +111,7 @@ resource "aws_instance" "worker" {
   }
 
   disable_api_termination = true  # 종료 방지 활성화
-  vpc_security_group_ids = ["sg-083d7a16c698d056a"]
+  vpc_security_group_ids = ["sg-0d2211537b7b269e8"]
 
   user_data = <<-EOF
     #!/bin/bash

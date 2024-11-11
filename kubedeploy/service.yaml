@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: msa-parking-service
+  name: msa-register-service
 spec:
   type: NodePort  # 외부에서 접근 가능하도록 설정
   ports:
@@ -9,7 +9,7 @@ spec:
       targetPort: 8000
       nodePort: 30100  # 원하는 노드 포트 (선택 사항)
   selector:
-    app: msa-parking-service
+    app: msa-register
 ---
 apiVersion: v1
 kind: Service
@@ -22,7 +22,7 @@ spec:
       targetPort: 8001
       nodePort: 30300  # 원하는 노드 포트 (선택 사항)
   selector:
-    app: msa-payment-service
+    app: msa-payment
 ---
 apiVersion: v1
 kind: Service
@@ -35,7 +35,7 @@ spec:
       targetPort: 8002
       nodePort: 30400  # 원하는 노드 포트 (선택 사항)
   selector:
-    app: msa-product-service
+    app: msa-product
 ---
 apiVersion: v1
 kind: Service
@@ -48,4 +48,4 @@ spec:
       targetPort: 8003
       nodePort: 30500  # 원하는 노드 포트 (선택 사항)
   selector:
-    app: msa-statistics-service
+    app: msa-statistics

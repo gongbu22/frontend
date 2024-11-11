@@ -8,7 +8,8 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/var/lib/app"
+    path: "/var/lib/data"
+    type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

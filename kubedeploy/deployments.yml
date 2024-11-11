@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: msa-parking-service
+  name: msa-register-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: msa-parking-service
+      app: msa-register
   template:
     metadata:
       labels:
-        app: msa-parking-service
+        app: msa-register
     spec:
       containers:
-        - name: msa-parking-service
+        - name: msa-register
           image: docker.io/yoon741/msa_register_service:v1  # 이미지 이름 수정
           ports:
             - containerPort: 8000
@@ -43,19 +43,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: msa-payment-service
+  name: msa-payment-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: msa-payment-service
+      app: msa-payment
   template:
     metadata:
       labels:
-        app: msa-payment-service
+        app: msa-payment
     spec:
       containers:
-        - name: msa-payment-service
+        - name: msa-payment
           image: docker.io/ashashrain/parking-payment-service:v4  # 이미지 이름 수정
           ports:
             - containerPort: 8001
@@ -85,19 +85,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: msa-product-service
+  name: msa-product-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: msa-product-service
+      app: msa-product
   template:
     metadata:
       labels:
-        app: msa-product-service
+        app: msa-product
     spec:
       containers:
-        - name: msa-product-service
+        - name: msa-product
           image: docdker/parking  # 이미지 이름 수정
           ports:
             - containerPort: 8002
@@ -127,21 +127,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: msa-statistics-service
+  name: msa-statistics-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: msa-statistics-service
+      app: msa-statistics
   template:
     metadata:
       labels:
-        app: msa-statistics-service
+        app: msa-statistics
     spec:
       containers:
-        - name: msa-statistics-service
+        - name: msa-statistics
           image: snicuz0588/msa-statistics-service:v5  # 이미지 이름 수정
-#          image: docdker/statistics:v4
+          #          image: docdker/statistics:v4
           ports:
             - containerPort: 8003
           env:

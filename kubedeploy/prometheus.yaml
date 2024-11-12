@@ -1,0 +1,168 @@
+---
+- name: Set up monitoring stack on server
+  hosts: ci
+  become: yes
+  tasks:
+
+    # 1. Install dependencies
+    - name: Install wget and tar
+      apt:
+        name:
+          - wget
+          - tar
+        state: present
+        update_cache: yes
+
+    # 2. Install Docker
+    - name: Install docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Restart docker service
+      service:
+        name: docker
+        state: restarted
+
+    # 3. Download and install Prometheus
+    - name: Download Prometheus
+      get_url:
+        url: https://github.com/prometheus/prometheus/releases/download/v2.53.3/prometheus-2.53.3.linux-arm64.tar.gz
+        dest: /tmp/prometheus-2.53.3.linux-arm64.tar.gz
+
+    - name: Extract Prometheus
+      unarchive:
+        src: /tmp/prometheus-2.53.2.linux-amd64.tar.gz
+        dest: /opt/
+        remote_src: yes
+
+    - name: Rename Prometheus directory
+      command: mv /opt/prometheus-2.53.2.linux-amd64 /opt/prometheus
+
+    # 4. Download and install Alertmanager
+    - name: Download Alertmanager
+      get_url:
+        url: https://github.com/prometheus/alertmanager/releases/download/v0.27.0/alertmanager-0.27.0.linux-arm64.tar.gz
+        dest: /tmp/alertmanager-0.27.0.linux-arm64.tar.gz
+
+    - name: Extract Alertmanager
+      unarchive:
+        src: /tmp/alertmanager-0.27.0.linux-amd64.tar.gz
+        dest: /opt/
+        remote_src: yes
+
+    - name: Rename Alertmanager directory
+      command: mv /opt/alertmanager-0.27.0.linux-amd64 /opt/alertmanager
+
+    # 5. Download and install Node Exporter
+    - name: Download Node Exporter
+      get_url:
+        url: https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-arm64.tar.gz
+        dest: /tmp/node_exporter-1.8.2.linux-arm64.tar.gz
+
+    - name: Extract Node Exporter
+      unarchive:
+        src: /tmp/node_exporter-1.8.2.linux-amd64.tar.gz
+        dest: /opt/
+        remote_src: yes
+
+    - name: Rename Node Exporter directory
+      command: mv /opt/node_exporter-1.8.2.linux-amd64 /opt/node_exporter
+
+    # 6. Download and install MySQL Exporter
+    - name: Download MySQL Exporter
+      get_url:
+        url: https://github.com/prometheus/mysqld_exporter/releases/download/v0.16.0/mysqld_exporter-0.16.0.linux-arm64.tar.gz
+        dest: /tmp/mysqld_exporter-0.16.0.linux-arm64.tar.gz
+
+    - name: Extract MySQL Exporter
+      unarchive:
+        src: /tmp/mysqld_exporter-0.15.1.linux-amd64.tar.gz
+        dest: /opt/
+        remote_src: yes
+
+    - name: Rename MySQL Exporter directory
+      command: mv /opt/mysqld_exporter-0.15.1.linux-amd64 /opt/mysqld_exporter
+
+    # 7. Download and install nginx
+    - name: Download Nginx
+      get_url:
+        url: https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v1.3.0/nginx-prometheus-exporter_1.3.0_linux_arm64.tar.gz
+        dest: /tmp/nginx-prometheus-exporter_1.3.0_linux_arm64.tar.gz
+
+    - name: Extract Nginx
+      unarchive:
+        src: /tmp/nginx-prometheus-exporter_1.3.0_linux_arm64.tar.gz
+        dest: /opt/
+        remote_src: yes
+
+    - name: Rename Nginx directory
+      command: mv /opt/nginx-prometheus-exporter_1.3.0_linux_arm64.tar.gz /opt/nginx
+
+    # 7. Install cAdvisor as Docker container
+    - name: Run cAdvisor container
+      docker_container:
+        name: cadvisor
+        image: gcr.io/cadvisor/cadvisor:v0.49.1
+        state: started
+        restart_policy: unless-stopped
+        published_ports:
+          - "8080:8080"
+        volumes:
+          - "/:/rootfs:ro"
+          - "/var/run:/var/run:ro"
+          - "/sys:/sys:ro"
+          - "/var/lib/docker:/var/lib/docker:ro"
+          - "/dev/disk:/dev/disk:ro"
+        privileged: yes
+        devices:
+          - "/dev/kmsg:/dev/kmsg"
+
+    # 8. Configure Prometheus for various targets
+    - name: Update Prometheus configuration for targets
+      lineinfile:
+        path: /opt/prometheus/prometheus.yml
+        regexp: '^  - job_name:'
+        line: |
+          - job_name: "prometheus"
+            static_configs:
+              - targets: ["3.39.234.146:9090"]
+          - job_name: "node_exporter"
+            static_configs:
+              - targets: ["3.39.234.146:9100"]
+          - job_name: "cAdvisor"
+            static_configs:
+              - targets: ["3.39.234.146:8080"]
+          - job_name: "docker"
+            static_configs:
+              - targets: ["3.39.234.146:9323"]
+
+    # 9. Run Prometheus
+    - name: Start Prometheus
+      command: /opt/prometheus/prometheus
+
+    # 10. Restart Docker service to enable metrics
+    - name: Enable Docker metrics
+      copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          {
+            "metrics-addr" : "0.0.0.0:9323",
+            "experimental" : true
+          }
+
+    - name: Restart Docker service
+      service:
+        name: docker
+        state: restarted
+
+    # 11. Configure port forwarding (if using a VM or remote machine)
+    - name: Configure VM port forwarding (optional, depends on VM configuration)
+      command: |
+        echo "Please manually configure port forwarding for 8080, 9095, 9100, and 9323 if necessary."

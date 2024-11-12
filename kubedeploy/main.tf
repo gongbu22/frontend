@@ -11,9 +11,9 @@ provider "aws" {
 }
 
 // ansible
-resource "aws_instance" "ansible" {
-  ami           = "ami-056a29f2eddc40520" # Ubuntu 22.04 LTS
-  instance_type = "t2.micro"
+resource "aws_instance" "arm_ansible" {
+  ami           = "ami-0a9ca67a102bd2bc8" # Ubuntu 22.04 LTS
+  instance_type = "t4g.micro"
   key_name      = "clouds2024" # 키페어 이름
 
   root_block_device {
@@ -37,6 +37,26 @@ resource "aws_instance" "ansible" {
     sudo apt install -y software-properties-common
     sudo add-apt-repository --yes --update ppa:ansible/ansible
     sudo apt install -y ansible
+
+    # gitops 폴더 생성
+    mkdir -p /home/ubuntu/gitops
+    sudo chown ubuntu:ubuntu /home/ubuntu/gitops
+    sudo chmod 755 /home/ubuntu/gitops
+
+    # inventory 생성
+    cat <<INVENTORY >  /home/ubuntu/gitops/inventory
+    [gitops]
+    ci ansible_host=${aws_instance.arm_ci.public_ip} ansible_user=ubuntu
+    cd-master ansible_host=${aws_instance.arm_cd-master.public_ip} ansible_user=ubuntu
+
+    [workers]
+    worker ansible_host=${aws_instance.arm_worker.public_ip} ansible_user=ubuntu
+
+    [all:vars]
+    ansible_ssh_private_key_file=/home/ubuntu/clouds2024.pem
+    ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+    ansible_python_interpreter=/usr/bin/python3.10
+    INVENTORY
   EOF
 
   tags = {
@@ -45,9 +65,9 @@ resource "aws_instance" "ansible" {
 }
 
 // ci
-resource "aws_instance" "ci" {
-  ami           = "ami-056a29f2eddc40520" # Ubuntu 22.04 LTS
-  instance_type = "t3.small"
+resource "aws_instance" "arm_ci" {
+  ami           = "ami-0a9ca67a102bd2bc8" # Ubuntu 22.04 LTS
+  instance_type = "t4g.small"
   key_name      = "clouds2024" # 키페어 이름
 
   root_block_device {
@@ -72,9 +92,9 @@ resource "aws_instance" "ci" {
 }
 
 // cd-master
-resource "aws_instance" "cd-master" {
-  ami           = "ami-056a29f2eddc40520" # Ubuntu 22.04 LTS
-  instance_type = "t3.small"
+resource "aws_instance" "arm_cd-master" {
+  ami           = "ami-0a9ca67a102bd2bc8" # Ubuntu 22.04 LTS
+  instance_type = "t4g.medium"
   key_name      = "clouds2024" # 키페어 이름
 
   root_block_device {
@@ -99,9 +119,9 @@ resource "aws_instance" "cd-master" {
 }
 
 // worker
-resource "aws_instance" "worker" {
-  ami           = "ami-056a29f2eddc40520" # Ubuntu 22.04 LTS
-  instance_type = "t3.small"
+resource "aws_instance" "arm_worker" {
+  ami           = "ami-0a9ca67a102bd2bc8" # Ubuntu 22.04 LTS
+  instance_type = "t4g.small"
   key_name      = "clouds2024" # 키페어 이름
 
   root_block_device {
@@ -126,21 +146,18 @@ resource "aws_instance" "worker" {
 }
 
 
-
 output "ansible-parking" {   # 인스턴스 ansible-parking 퍼블릭 IP 주소
-  value = aws_instance.ansible.public_ip
+  value = aws_instance.arm_ansible.public_ip
 }
 
 output "ci" {   # 인스턴스 ci 퍼블릭 IP 주소
-  value = aws_instance.ci.public_ip
+  value = aws_instance.arm_ci.public_ip
 }
 
 output "cd-master" {   # 인스턴스 cd-master 퍼블릭 IP 주소
-  value = aws_instance.cd-master.public_ip
+  value = aws_instance.arm_cd-master.public_ip
 }
 
 output "worker" {   # 인스턴스 worker 퍼블릭 IP 주소
-  value = aws_instance.worker.public_ip
+  value = aws_instance.arm_worker.public_ip
 }
-
-

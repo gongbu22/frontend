@@ -60,7 +60,7 @@ resource "aws_instance" "arm_ansible" {
   EOF
 
   tags = {
-    Name = "ansible-parking"
+    Name = "arm-ansible"
   }
 }
 
@@ -87,7 +87,7 @@ resource "aws_instance" "arm_ci" {
   EOF
 
   tags = {
-    Name = "ci"
+    Name = "arm-ci"
   }
 }
 
@@ -114,7 +114,7 @@ resource "aws_instance" "arm_cd-master" {
   EOF
 
   tags = {
-    Name = "cd-master"
+    Name = "arm-cd-master"
   }
 }
 
@@ -141,7 +141,7 @@ resource "aws_instance" "arm_worker" {
   EOF
 
   tags = {
-    Name = "worker"
+    Name = "arm-worker"
   }
 }
 

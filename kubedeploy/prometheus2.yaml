@@ -1,0 +1,139 @@
+---
+- name: Install Prometheus, Exporters, Nginx, and Nginx Exporter on ARM64 architecture
+  hosts: ci
+  become: true
+  tasks:
+
+    # Download and Install Prometheus
+    - name: Download Prometheus (ARM64)
+      get_url:
+        url: "https://github.com/prometheus/prometheus/releases/download/v2.53.2/prometheus-2.53.2.linux-arm64.tar.gz"
+        dest: "/tmp/prometheus-2.53.2.linux-arm64.tar.gz"
+        mode: '0644'
+
+    - name: Extract Prometheus tarball
+      unarchive:
+        src: "/tmp/prometheus-2.53.2.linux-arm64.tar.gz"
+        dest: "/opt/"
+        remote_src: yes
+
+    - name: Move Prometheus to /opt/prometheus
+      command: mv /opt/prometheus-2.53.2.linux-arm64 /opt/prometheus
+
+    # Download and Install Alertmanager
+    - name: Download Alertmanager (ARM64)
+      get_url:
+        url: "https://github.com/prometheus/alertmanager/releases/download/v0.27.0/alertmanager-0.27.0.linux-arm64.tar.gz"
+        dest: "/tmp/alertmanager-0.27.0.linux-arm64.tar.gz"
+        mode: '0644'
+
+    - name: Extract Alertmanager tarball
+      unarchive:
+        src: "/tmp/alertmanager-0.27.0.linux-arm64.tar.gz"
+        dest: "/opt/"
+        remote_src: yes
+
+    - name: Move Alertmanager to /opt/alertmanager
+      command: mv /opt/alertmanager-0.27.0.linux-arm64 /opt/alertmanager
+
+    # Download and Install mysqld_exporter
+    - name: Download mysqld_exporter (ARM64)
+      get_url:
+        url: "https://github.com/prometheus/mysqld_exporter/releases/download/v0.15.1/mysqld_exporter-0.15.1.linux-arm64.tar.gz"
+        dest: "/tmp/mysqld_exporter-0.15.1.linux-arm64.tar.gz"
+        mode: '0644'
+
+    - name: Extract mysqld_exporter tarball
+      unarchive:
+        src: "/tmp/mysqld_exporter-0.15.1.linux-arm64.tar.gz"
+        dest: "/opt/"
+        remote_src: yes
+
+    - name: Move mysqld_exporter to /opt/mysqld_exporter
+      command: mv /opt/mysqld_exporter-0.15.1.linux-arm64 /opt/mysqld_exporter
+
+    # Download and Install node_exporter
+    - name: Download node_exporter (ARM64)
+      get_url:
+        url: "https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-arm64.tar.gz"
+        dest: "/tmp/node_exporter-1.8.2.linux-arm64.tar.gz"
+        mode: '0644'
+
+    - name: Extract node_exporter tarball
+      unarchive:
+        src: "/tmp/node_exporter-1.8.2.linux-arm64.tar.gz"
+        dest: "/opt/"
+        remote_src: yes
+
+    - name: Move node_exporter to /opt/node_exporter
+      command: mv /opt/node_exporter-1.8.2.linux-arm64 /opt/node_exporter
+
+    # Download and Install Nginx Prometheus Exporter
+    - name: Download Nginx Prometheus Exporter (ARM64)
+      get_url:
+        url: "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v0.11.1/nginx-prometheus-exporter-0.11.1-linux-arm64.tar.gz"
+        dest: "/tmp/nginx-prometheus-exporter-0.11.1-linux-arm64.tar.gz"
+        mode: '0644'
+
+    - name: Extract Nginx Prometheus Exporter tarball
+      unarchive:
+        src: "/tmp/nginx-prometheus-exporter-0.11.1-linux-arm64.tar.gz"
+        dest: "/opt/"
+        remote_src: yes
+
+    - name: Move Nginx Prometheus Exporter to /opt/nginx-prometheus-exporter
+      command: mv /opt/nginx-prometheus-exporter-0.11.1-linux-arm64 /opt/nginx-prometheus-exporter
+
+    # Set permissions for /opt directory
+    - name: Set permissions for /opt/prometheus
+      file:
+        path: "/opt/prometheus"
+        owner: prometheus
+        group: prometheus
+        mode: '0755'
+        recurse: yes
+
+    - name: Set permissions for /opt/alertmanager
+      file:
+        path: "/opt/alertmanager"
+        owner: alertmanager
+        group: alertmanager
+        mode: '0755'
+        recurse: yes
+
+    - name: Set permissions for /opt/mysqld_exporter
+      file:
+        path: "/opt/mysqld_exporter"
+        owner: mysqld_exporter
+        group: mysqld_exporter
+        mode: '0755'
+        recurse: yes
+
+    - name: Set permissions for /opt/node_exporter
+      file:
+        path: "/opt/node_exporter"
+        owner: node_exporter
+        group: node_exporter
+        mode: '0755'
+        recurse: yes
+
+    - name: Set permissions for /opt/nginx-prometheus-exporter
+      file:
+        path: "/opt/nginx-prometheus-exporter"
+        owner: nginx
+        group: nginx
+        mode: '0755'
+        recurse: yes
+
+    # Clean up temporary files
+    - name: Remove temporary tarballs
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "/tmp/prometheus-2.53.2.linux-arm64.tar.gz"
+        - "/tmp/alertmanager-0.27.0.linux-arm64.tar.gz"
+        - "/tmp/mysqld_exporter-0.15.1.linux-arm64.tar.gz"
+        - "/tmp/node_exporter-1.8.2.linux-arm64.tar.gz"
+        - "/tmp/nginx-prometheus-exporter-0.11.1-linux-arm64.tar.gz"
+

@@ -84,6 +84,8 @@ resource "aws_instance" "arm_ci" {
     sudo timedatectl set-timezone "Asia/Seoul"
     sudo hwclock
     sudo hostnamectl set-hostname ci
+
+
   EOF
 
   tags = {
